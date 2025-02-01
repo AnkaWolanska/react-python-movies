@@ -6,6 +6,7 @@ import MovieForm from "./MovieForm";
 import MoviesList from "./MoviesList";
 import ActorForm from "./ActorForm";
 import ActorsList from "./ActorsList";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
         body: JSON.stringify(movie),
         headers: { 'Content-Type': 'application/json' }
       });
-      if (response.ok) {
+      if (response.ok) {toast ("Movie added successfully");
         const movieFromServer = await response.json();
         setMovies([...movies, movieFromServer]);
         setAddingMovie(false);
@@ -84,6 +85,7 @@ function App() {
 
     return (
         <div className="container">
+            <ToastContainer />
             <h1>My favourite movies to watch</h1>
             {movies.length === 0
                 ? <p>No movies yet. Maybe add something?</p>

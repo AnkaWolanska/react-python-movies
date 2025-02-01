@@ -15,7 +15,7 @@ class Movie(BaseModel):
     director = CharField()
     year = IntegerField()
     description = TextField()
-    actors = ManyToManyField(Actor, backref='movies')
+    actors = ManyToManyField(Actor, backref='movies', on_delete='CASCADE')
 
 ActorMovie = Movie.actors.get_through_model()
 

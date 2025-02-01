@@ -6,6 +6,11 @@ from fastapi.responses import FileResponse
 
 import schemas
 import models
+import logging
+
+logger = logging.getLogger('peewee')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="../ui/build/static", check_dir=False), name="static")
@@ -42,6 +47,7 @@ def get_movie(movie_id: int):
     db_movie = models.Movie.filter(models.Movie.id == movie_id).first()
     if db_movie is None:
         raise HTTPException(status_code=404, detail="Movie not found")
+    db_movie.actors.clear()
     db_movie.delete_instance()
     return db_movie
 
