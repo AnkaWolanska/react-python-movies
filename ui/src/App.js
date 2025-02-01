@@ -43,11 +43,12 @@ function App() {
         body: JSON.stringify(movie),
         headers: { 'Content-Type': 'application/json' }
       });
-      if (response.ok) {toast ("Movie added successfully");
+      if (response.ok) {toast.success ("Movie added successfully");
         const movieFromServer = await response.json();
         setMovies([...movies, movieFromServer]);
         setAddingMovie(false);
       }
+      else {toast.error ("Failed to add movie")}
     }
 
     async function handleAddActor(actor) {
@@ -56,11 +57,12 @@ function App() {
         body: JSON.stringify(actor),
         headers: { 'Content-Type': 'application/json' }
       });
-      if (response.ok) {
+      if (response.ok) {toast.success ("Actor added successfully")
         const actorFromServer = await response.json();
         setActors([...actors, actorFromServer]);
         setAddingActor(false);
       }
+      else {toast.error ("Failed to add actor")}
     }
 
     async function handleDeleteMovie(movie) {
