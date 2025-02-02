@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 import schemas
 import models
 import logging
+import time
 
 logger = logging.getLogger('peewee')
 logger.addHandler(logging.StreamHandler())
@@ -23,6 +24,7 @@ def serve_react_app():
 
 @app.get("/movies", response_model=List[schemas.Movie])
 def get_movies():
+    time.sleep(1)
     return list(models.Movie.select())
 
 
@@ -54,6 +56,7 @@ def get_movie(movie_id: int):
 #GET http://127.0.0.1:8000/actors
 @app.get("/actors", response_model=List[schemas.Actor])
 def get_actors():
+    time.sleep(3)
     return list(models.Actor.select())
 
 #GET http://127.0.0.1:8000/actors/2
