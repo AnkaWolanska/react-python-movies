@@ -98,6 +98,8 @@ function App() {
     async function deleteConfirmationModal(){
         return new Promise(resolve => {
             toast(deleteConfirm, {
+                autoClose: false,
+                position: 'top-center',
                 onClose(reason) {
                     if (reason === "delete") {
                         resolve(true)
