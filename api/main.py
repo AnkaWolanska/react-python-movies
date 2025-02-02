@@ -56,7 +56,7 @@ def get_movie(movie_id: int):
 #GET http://127.0.0.1:8000/actors
 @app.get("/actors", response_model=List[schemas.Actor])
 def get_actors():
-    time.sleep(3)
+    time.sleep(2)
     return list(models.Actor.select())
 
 #GET http://127.0.0.1:8000/actors/2
