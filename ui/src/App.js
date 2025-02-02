@@ -6,6 +6,7 @@ import MoviesList from "./MoviesList";
 import ActorForm from "./ActorForm";
 import ActorsList from "./ActorsList";
 import { ToastContentProps, ToastContainer, toast } from 'react-toastify';
+import Loading from "./Loading";
 
 function App() {
     const [movies, setMovies] = useState([]);
@@ -124,32 +125,37 @@ function App() {
 
     return (
         <div className="container">
-            <ToastContainer />
-            <h1>My favourite movies to watch</h1>
-            {movies.length === 0
-                ? <p>No movies yet. Maybe add something?</p>
-                : <MoviesList movies={movies}
-                              onDeleteMovie={handleDeleteMovie}
-                />}
-            {addingMovie
-                ? <MovieForm onMovieSubmit={handleAddMovie}
-                             buttonLabel="Add a movie"
-                />
-                : <button onClick={() => setAddingMovie(true)}>Add a movie</button>}
+            <ToastContainer/>
+            <div className="row">
+                <h1>My favourite movies to watch</h1>
+            </div>
+            <div className="row">
+            <div className="column">
+                    <MoviesList movies={movies}
+                                onDeleteMovie={handleDeleteMovie}
+                    />
+                    {addingMovie
+                        ? <MovieForm onMovieSubmit={handleAddMovie}
+                                     buttonLabel="Add a movie"
+                        />
+                        : <button onClick={() => setAddingMovie(true)}>Add a movie</button>}
+                </div>
+                <div className="column column-25">
+                    {actors.length === 0
+                        ? <Loading/>
+                        : <ActorsList actors={actors}
+                                      onDeleteActor={handleDeleteActor}
+                        />}
+                    {addingActor
+                        ? <ActorForm onActorSubmit={handleAddActor}
+                                     buttonLabel="Add an actor"
+                        />
+                        : <button onClick={() => setAddingActor(true)}>Add an actor</button>}
+                </div>
+                </div>
+            </div>
+            );
 
-            {actors.length === 0
-                ? <p>No actors yet. Maybe add somebody?</p>
-                : <ActorsList actors={actors}
-                              onDeleteActor={handleDeleteActor}
-                />}
-            {addingActor
-                ? <ActorForm onActorSubmit={handleAddActor}
-                             buttonLabel="Add an actor"
-                />
-                : <button onClick={() => setAddingActor(true)}>Add an actor</button>}
-        </div>
-    );
+            }
 
-}
-
-export default App;
+            export default App;
