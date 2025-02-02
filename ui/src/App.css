@@ -38,9 +38,9 @@
 }
 
 ul.movies-list {
-  list-style: none;
+  list-style: square;
 }
 
 ul.actors-list {
-  list-style: none;
+  list-style: square;
 }

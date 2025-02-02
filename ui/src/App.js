@@ -22,6 +22,7 @@ function App() {
                 const movies = await response.json();
                 setMovies(movies);
             }
+            else {toast.error ("Sorry! We couldn't load movies")}
         };
         fetchMovies();
     }, []);
@@ -33,6 +34,7 @@ function App() {
                 const actors = await response.json();
                 setActors(actors);
             }
+            else {toast.error ("Sorry! We couldn't load actors")}
         };
         fetchActors();
     }, []);
