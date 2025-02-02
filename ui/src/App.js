@@ -1,13 +1,11 @@
 import './App.css';
-import {useState} from "react";
-import {useEffect} from 'react';
+import {useEffect, useState} from "react";
 import "milligram";
 import MovieForm from "./MovieForm";
 import MoviesList from "./MoviesList";
 import ActorForm from "./ActorForm";
 import ActorsList from "./ActorsList";
-import { ToastContainer, toast } from 'react-toastify';
-
+import { ToastContentProps, ToastContainer, toast } from 'react-toastify';
 
 function App() {
     const [movies, setMovies] = useState([]);
@@ -68,24 +66,59 @@ function App() {
     }
 
     async function handleDeleteMovie(movie) {
+        const deleteConfirmed = await deleteConfirmationModal();
+        if (!deleteConfirmed){
+            return;
+        }
         const response = await fetch(`/movies/${movie.id}`, {
             method: 'DELETE',
         });
-        if (response.ok) {
+        if (response.ok) {toast.success ("Movie deleted successfully")
             const nextMovies = movies.filter(m => m !== movie);
             setMovies(nextMovies);
         }
+        else {toast.error ("Failed to delete movie")}
     }
 
     async function handleDeleteActor(actor) {
+        const deleteConfirmed = await deleteConfirmationModal();
+        if (!deleteConfirmed){
+            return;
+        }
         const response = await fetch(`/actors/${actor.id}`, {
             method: 'DELETE',
         });
-        if (response.ok) {
+        if (response.ok) {toast.success ("Actor deleted successfully")
             const nextActors = actors.filter(m => m !== actor);
             setActors(nextActors);
         }
+        else {toast.error ("Failed to delete actor")}
     }
+
+    async function deleteConfirmationModal(){
+        return new Promise(resolve => {
+            toast(deleteConfirm, {
+                onClose(reason) {
+                    if (reason === "delete") {
+                        resolve(true)
+                    } else {
+                        resolve(false)
+                    }
+                }
+            });
+        });
+    }
+
+    function deleteConfirm({ closeToast }) {
+      return (
+        <div class="confirmation-toast">
+          Are you sure you want to delete this?
+          <button class="button" onClick={() => closeToast("delete")}>Yes, delete</button>
+          <button class="button button-outline" onClick={() => closeToast("cancel")}>Cancel</button>
+        </div>
+      )
+    }
+
 
     return (
         <div className="container">
