@@ -66,6 +66,10 @@ function App() {
     }
 
     async function handleDeleteMovie(movie) {
+        const deleteConfirmed = await deleteConfirmationModal();
+        if (!deleteConfirmed){
+            return;
+        }
         const response = await fetch(`/movies/${movie.id}`, {
             method: 'DELETE',
         });
@@ -77,20 +81,31 @@ function App() {
     }
 
     async function handleDeleteActor(actor) {
-        toast(deleteConfirm, {
-            onClose(reason){
-                if (reason === "delete"){
-                    fetch(`/actors/${actor.id}`, {
-                      method: 'DELETE',
-                    }).then(response => {
-                        if (response.ok) {toast.success ("Actor deleted successfully")
-                            const nextActors = actors.filter(m => m !== actor);
-                            setActors(nextActors);
-                        }
-                        else {toast.error ("Failed to delete actor")}
-                    })
+        const deleteConfirmed = await deleteConfirmationModal();
+        if (!deleteConfirmed){
+            return;
+        }
+        const response = await fetch(`/actors/${actor.id}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {toast.success ("Actor deleted successfully")
+            const nextActors = actors.filter(m => m !== actor);
+            setActors(nextActors);
+        }
+        else {toast.error ("Failed to delete actor")}
+    }
+
+    async function deleteConfirmationModal(){
+        return new Promise(resolve => {
+            toast(deleteConfirm, {
+                onClose(reason) {
+                    if (reason === "delete") {
+                        resolve(true)
+                    } else {
+                        resolve(false)
+                    }
                 }
-            }
+            });
         });
     }
 
