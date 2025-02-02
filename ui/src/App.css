@@ -44,3 +44,7 @@ ul.movies-list {
 ul.actors-list {
   list-style: square;
 }
+
+.confirmation-toast button {
+  margin: 5px;
+}
